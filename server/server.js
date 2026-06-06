@@ -4,7 +4,8 @@ require("dotenv").config();
 
 const orderRoutes = require("./routes/orders");
 
-
+const bulkEnquiryRoutes =
+require("./routes/bulkEnquiryRoutes");
 const uploadRoutes = require("./routes/upload");
 
 const pool = require("./config/db");
@@ -35,3 +36,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use(
+  "/api/bulk-enquiry",
+  bulkEnquiryRoutes
+);
