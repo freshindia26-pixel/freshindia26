@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import API from "../services/api";
 
 const Register = () => {
@@ -45,53 +44,92 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-6">
+    <div className="min-h-screen bg-[#f8faf8] flex items-center justify-center px-6 py-20">
 
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-yellow-500/20 rounded-3xl p-10"
-      >
+      <div className="w-full max-w-md">
 
-        <h1 className="text-4xl font-bold text-yellow-400 mb-8 text-center">
-          Register
-        </h1>
+        <div className="bg-white rounded-3xl shadow-xl border border-green-100 p-10">
 
-        <div className="space-y-6">
+          <div className="text-center mb-8">
 
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full bg-black/40 border border-yellow-500/20 rounded-xl px-5 py-4 text-white outline-none"
-          />
+            <span className="inline-block bg-orange-100 text-orange-500 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              Join FreshIndia
+            </span>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full bg-black/40 border border-yellow-500/20 rounded-xl px-5 py-4 text-white outline-none"
-          />
+            <h1 className="text-4xl font-bold text-gray-900">
+              Create Account
+            </h1>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full bg-black/40 border border-yellow-500/20 rounded-xl px-5 py-4 text-white outline-none"
-          />
+            <p className="text-gray-600 mt-3">
+              Register to start ordering premium export products
+            </p>
 
-          <button className="w-full bg-yellow-500 text-black py-4 rounded-xl font-semibold hover:scale-105 transition">
-            Create Account
-          </button>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full border border-green-200 rounded-xl px-5 py-4 text-gray-800 outline-none focus:border-green-600"
+              required
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border border-green-200 rounded-xl px-5 py-4 text-gray-800 outline-none focus:border-green-600"
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full border border-green-200 rounded-xl px-5 py-4 text-gray-800 outline-none focus:border-green-600"
+              required
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold transition"
+            >
+              Create Account
+            </button>
+
+          </form>
+
+          <div className="mt-8 text-center">
+
+            <p className="text-gray-600">
+
+              Already have an account?{" "}
+
+              <Link
+                to="/login"
+                className="text-green-700 font-semibold hover:text-green-800"
+              >
+                Login
+              </Link>
+
+            </p>
+
+          </div>
 
         </div>
 
-      </form>
+      </div>
 
     </div>
   );

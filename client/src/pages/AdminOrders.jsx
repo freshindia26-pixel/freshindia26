@@ -7,19 +7,24 @@ import API from "../services/api";
 import { motion } from "framer-motion";
 
 const AdminOrders = () => {
-  const [orders, setOrders] = useState([]);
 
-  const [search, setSearch] = useState("");
+  const [orders, setOrders] =
+    useState([]);
+
+  const [search, setSearch] =
+    useState("");
 
   const [statusFilter, setStatusFilter] =
     useState("All");
 
-  // FETCH ORDERS
+  /* FETCH ORDERS */
 
   const fetchOrders = async () => {
     try {
 
-      const response = await API.get("/orders");
+      const response = await API.get(
+        "/orders"
+      );
 
       setOrders(response.data);
 
@@ -33,7 +38,7 @@ const AdminOrders = () => {
     fetchOrders();
   }, []);
 
-  // UPDATE STATUS
+  /* UPDATE ORDER */
 
   const updateOrder = async (
     id,
@@ -42,10 +47,13 @@ const AdminOrders = () => {
   ) => {
     try {
 
-      await API.put(`/orders/${id}`, {
-        status,
-        tracking_id,
-      });
+      await API.put(
+        `/orders/${id}`,
+        {
+          status,
+          tracking_id,
+        }
+      );
 
       fetchOrders();
 
@@ -55,33 +63,47 @@ const AdminOrders = () => {
     }
   };
 
-  // FILTERS
+  /* FILTERS */
 
-  const filteredOrders = orders.filter(
-    (order) => {
+  const filteredOrders =
+    orders.filter((order) => {
 
       const matchesSearch =
+
         order.customer_name
           ?.toLowerCase()
-          .includes(search.toLowerCase()) ||
+          .includes(
+            search.toLowerCase()
+          )
+
+        ||
 
         order.product_name
           ?.toLowerCase()
-          .includes(search.toLowerCase());
+          .includes(
+            search.toLowerCase()
+          );
 
       const matchesStatus =
-        statusFilter === "All" ||
-        order.status === statusFilter;
 
-      return matchesSearch && matchesStatus;
-    }
-  );
+        statusFilter === "All"
+
+        ||
+
+        order.status ===
+          statusFilter;
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+    });
 
   return (
     <>
       <AdminNavbar />
 
-      <div className="min-h-screen bg-black text-white pt-40 px-6">
+      <div className="min-h-screen bg-[#f8faf8] pt-36 pb-20 px-6">
 
         <div className="max-w-7xl mx-auto">
 
@@ -89,13 +111,17 @@ const AdminOrders = () => {
 
           <div className="mb-16">
 
-            <p className="text-yellow-400 uppercase tracking-[5px] mb-4">
+            <span className="inline-block bg-orange-100 text-orange-500 px-5 py-2 rounded-full font-medium mb-5">
               Order Management
-            </p>
+            </span>
 
-            <h1 className="text-6xl font-bold">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900">
               Customer Orders
             </h1>
+
+            <p className="text-gray-600 mt-4">
+              Manage orders, shipment tracking and delivery updates.
+            </p>
 
           </div>
 
@@ -108,17 +134,21 @@ const AdminOrders = () => {
               placeholder="Search orders..."
               value={search}
               onChange={(e) =>
-                setSearch(e.target.value)
+                setSearch(
+                  e.target.value
+                )
               }
-              className="flex-1 bg-white/5 border border-yellow-500/20 rounded-2xl px-6 py-4 outline-none"
+              className="flex-1 bg-white border border-green-100 rounded-2xl px-6 py-4 outline-none focus:border-green-600 shadow-sm"
             />
 
             <select
               value={statusFilter}
               onChange={(e) =>
-                setStatusFilter(e.target.value)
+                setStatusFilter(
+                  e.target.value
+                )
               }
-              className="bg-white/5 border border-yellow-500/20 rounded-2xl px-6 py-4 outline-none"
+              className="bg-white border border-green-100 rounded-2xl px-6 py-4 outline-none focus:border-green-600 shadow-sm"
             >
 
               <option value="All">
@@ -149,165 +179,191 @@ const AdminOrders = () => {
 
           <div className="space-y-8">
 
-            {filteredOrders.map((order, index) => (
+            {filteredOrders.map(
+              (order, index) => (
 
-              <motion.div
-                key={order.id}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="bg-white/5 border border-yellow-500/20 rounded-3xl p-8"
-              >
+                <motion.div
+                  key={order.id}
+                  initial={{
+                    opacity: 0,
+                    y: 40,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay:
+                      index * 0.05,
+                  }}
+                  className="bg-white border border-green-100 rounded-3xl shadow-sm p-8 hover:shadow-lg transition"
+                >
 
-                <div className="grid md:grid-cols-3 gap-10">
+                  <div className="grid lg:grid-cols-3 gap-10">
 
-                  {/* LEFT */}
+                    {/* LEFT */}
 
-                  <div>
+                    <div>
 
-                    <h2 className="text-3xl font-bold mb-4">
-                      {order.product_name}
-                    </h2>
+                      <span className="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-5">
+                        Order #{order.id}
+                      </span>
 
-                    <p className="text-gray-400">
-                      Customer:
-                    </p>
+                      <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                        {order.product_name}
+                      </h2>
 
-                    <p className="text-xl mt-2">
-                      {order.customer_name}
-                    </p>
+                      <p className="text-gray-500">
+                        Customer Name
+                      </p>
 
-                    <p className="text-gray-400 mt-6">
-                      Email:
-                    </p>
+                      <p className="text-xl mt-2 font-medium text-gray-900">
+                        {order.customer_name}
+                      </p>
 
-                    <p className="mt-2">
-                      {order.customer_email}
-                    </p>
+                      <p className="text-gray-500 mt-6">
+                        Email
+                      </p>
 
-                  </div>
+                      <p className="mt-2 text-gray-700">
+                        {order.customer_email}
+                      </p>
 
-                  {/* CENTER */}
+                    </div>
 
-                  <div>
+                    {/* CENTER */}
 
-                    <p className="text-gray-400">
-                      Quantity
-                    </p>
+                    <div>
 
-                    <p className="text-2xl mt-2">
-                      {order.quantity}
-                    </p>
+                      <p className="text-gray-500">
+                        Quantity
+                      </p>
 
-                    <p className="text-gray-400 mt-6">
-                      Total Price
-                    </p>
+                      <p className="text-2xl mt-2 font-bold text-gray-900">
+                        {order.quantity}
+                      </p>
 
-                    <p className="text-3xl text-yellow-400 font-bold mt-2">
-                      ${order.total_price}
-                    </p>
+                      <p className="text-gray-500 mt-6">
+                        Total Price
+                      </p>
 
-                    <p className="text-gray-400 mt-6">
-                      Address
-                    </p>
+                      <p className="text-4xl text-orange-500 font-bold mt-2">
+                        ₹ {order.total_price}
+                      </p>
 
-                    <p className="mt-2">
-                      {order.shipping_address}
-                    </p>
+                      <p className="text-gray-500 mt-6">
+                        Shipping Address
+                      </p>
 
-                  </div>
+                      <p className="mt-2 text-gray-700 leading-7">
+                        {order.shipping_address}
+                      </p>
 
-                  {/* RIGHT */}
+                    </div>
 
-                  <div>
+                    {/* RIGHT */}
 
-                    <p className="text-gray-400 mb-4">
-                      Order Status
-                    </p>
+                    <div>
 
-                    <span
-                      className={`
-                        px-5 py-2 rounded-full text-sm font-semibold
+                      <p className="text-gray-500 mb-4">
+                        Order Status
+                      </p>
 
-                        ${
-                          order.status === "Pending"
-                            ? "bg-yellow-500 text-black"
+                      <span
+                        className={`
+                          px-5 py-2 rounded-full text-sm font-semibold
 
-                            : order.status === "Dispatched"
-                            ? "bg-blue-500"
+                          ${
+                            order.status ===
+                            "Pending"
 
-                            : order.status === "Delivered"
-                            ? "bg-green-500"
+                              ? "bg-orange-100 text-orange-600"
 
-                            : "bg-gray-500"
-                        }
-                      `}
-                    >
-                      {order.status}
-                    </span>
+                              : order.status ===
+                                "Processing"
 
-                    {/* UPDATE */}
+                              ? "bg-blue-100 text-blue-600"
 
-                    <div className="mt-10 space-y-4">
+                              : order.status ===
+                                "Dispatched"
 
-                      <select
-                        onChange={(e) =>
-                          updateOrder(
-                            order.id,
-                            e.target.value,
-                            order.tracking_id
-                          )
-                        }
-                        className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                              ? "bg-purple-100 text-purple-600"
+
+                              : order.status ===
+                                "Delivered"
+
+                              ? "bg-green-100 text-green-700"
+
+                              : "bg-gray-100 text-gray-700"
+                          }
+                        `}
                       >
+                        {order.status}
+                      </span>
 
-                        <option>
-                          Update Status
-                        </option>
+                      {/* UPDATE */}
 
-                        <option value="Pending">
-                          Pending
-                        </option>
+                      <div className="mt-10 space-y-5">
 
-                        <option value="Processing">
-                          Processing
-                        </option>
+                        <select
+                          onChange={(e) =>
+                            updateOrder(
+                              order.id,
+                              e.target.value,
+                              order.tracking_id
+                            )
+                          }
+                          className="w-full bg-white border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
+                        >
 
-                        <option value="Dispatched">
-                          Dispatched
-                        </option>
+                          <option>
+                            Update Status
+                          </option>
 
-                        <option value="Delivered">
-                          Delivered
-                        </option>
+                          <option value="Pending">
+                            Pending
+                          </option>
 
-                      </select>
+                          <option value="Processing">
+                            Processing
+                          </option>
 
-                      <input
-                        type="text"
-                        placeholder="Tracking ID"
-                        defaultValue={
-                          order.tracking_id
-                        }
-                        onBlur={(e) =>
-                          updateOrder(
-                            order.id,
-                            order.status,
-                            e.target.value
-                          )
-                        }
-                        className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
-                      />
+                          <option value="Dispatched">
+                            Dispatched
+                          </option>
+
+                          <option value="Delivered">
+                            Delivered
+                          </option>
+
+                        </select>
+
+                        <input
+                          type="text"
+                          placeholder="Tracking ID"
+                          defaultValue={
+                            order.tracking_id
+                          }
+                          onBlur={(e) =>
+                            updateOrder(
+                              order.id,
+                              order.status,
+                              e.target.value
+                            )
+                          }
+                          className="w-full bg-white border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
+                        />
+
+                      </div>
 
                     </div>
 
                   </div>
 
-                </div>
+                </motion.div>
 
-              </motion.div>
-
-            ))}
+              )
+            )}
 
           </div>
 

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 import AdminNavbar from "../components/navbar/AdminNavbar";
@@ -31,14 +30,13 @@ const AdminProducts = () => {
       image_url: "",
     });
 
-  // FETCH PRODUCTS
+  /* FETCH PRODUCTS */
 
   const fetchProducts = async () => {
     try {
 
-      const response = await API.get(
-        "/products"
-      );
+      const response =
+        await API.get("/products");
 
       setProducts(response.data);
 
@@ -52,12 +50,14 @@ const AdminProducts = () => {
     fetchProducts();
   }, []);
 
-  // DELETE PRODUCT
+  /* DELETE PRODUCT */
 
   const deleteProduct = async (id) => {
     try {
 
-      await API.delete(`/products/${id}`);
+      await API.delete(
+        `/products/${id}`
+      );
 
       fetchProducts();
 
@@ -67,7 +67,7 @@ const AdminProducts = () => {
     }
   };
 
-  // UPDATE PRODUCT
+  /* UPDATE PRODUCT */
 
   const updateProduct = async () => {
     try {
@@ -87,7 +87,7 @@ const AdminProducts = () => {
     }
   };
 
-  // CREATE PRODUCT
+  /* CREATE PRODUCT */
 
   const createProduct = async () => {
     try {
@@ -116,51 +116,53 @@ const AdminProducts = () => {
     }
   };
 
-  // FILTER PRODUCTS
+  /* FILTER */
 
-  const filteredProducts = products.filter(
-    (product) =>
+  const filteredProducts =
+    products.filter((product) =>
       product.name
         ?.toLowerCase()
         .includes(search.toLowerCase())
-  );
+    );
 
   return (
     <>
       <AdminNavbar />
 
-      <div className="min-h-screen bg-black text-white pt-40 px-6">
+      <div className="min-h-screen bg-[#f8faf8] pt-36 pb-20 px-6">
 
         <div className="max-w-7xl mx-auto">
 
           {/* HEADER */}
 
-          <div className="mb-16">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-14">
 
-            <p className="text-yellow-400 uppercase tracking-[5px] mb-4">
-              Product Management
-            </p>
+            <div>
 
-            <h1 className="text-6xl font-bold">
-              Manage Products
-            </h1>
+              <span className="inline-block bg-green-100 text-green-700 px-5 py-2 rounded-full font-medium mb-5">
+                Product Management
+              </span>
+
+              <h1 className="text-4xl md:text-6xl font-bold text-gray-900">
+                Manage Products
+              </h1>
+
+            </div>
+
+            <button
+              onClick={() =>
+                setShowAddModal(true)
+              }
+              className="bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-full font-semibold transition"
+            >
+              + Add Product
+            </button>
 
           </div>
 
-          {/* ADD PRODUCT BUTTON */}
-
-          <button
-            onClick={() =>
-              setShowAddModal(true)
-            }
-            className="bg-yellow-500 text-black px-8 py-4 rounded-full font-semibold hover:scale-105 transition mb-10"
-          >
-            + Add Product
-          </button>
-
           {/* SEARCH */}
 
-          <div className="mb-12">
+          <div className="mb-14">
 
             <input
               type="text"
@@ -169,14 +171,14 @@ const AdminProducts = () => {
               onChange={(e) =>
                 setSearch(e.target.value)
               }
-              className="w-full bg-white/5 border border-yellow-500/20 rounded-2xl px-6 py-4 outline-none"
+              className="w-full bg-white border border-green-100 rounded-2xl px-6 py-4 outline-none focus:border-green-600 shadow-sm"
             />
 
           </div>
 
-          {/* PRODUCTS GRID */}
+          {/* GRID */}
 
-          <div className="grid md:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
 
             {filteredProducts.map(
               (product, index) => (
@@ -192,9 +194,10 @@ const AdminProducts = () => {
                     y: 0,
                   }}
                   transition={{
-                    delay: index * 0.05,
+                    delay:
+                      index * 0.05,
                   }}
-                  className="bg-white/5 border border-yellow-500/20 rounded-3xl overflow-hidden"
+                  className="bg-white border border-green-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition"
                 >
 
                   <img
@@ -203,59 +206,57 @@ const AdminProducts = () => {
                     className="w-full h-72 object-cover"
                   />
 
-                  <div className="p-6">
+                  <div className="p-7">
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-4">
 
-                      <h2 className="text-3xl font-bold">
+                      <h2 className="text-3xl font-bold text-gray-900">
                         {product.name}
                       </h2>
 
                       {product.stock < 10 && (
-                        <span className="bg-red-500 text-white text-xs px-3 py-1 rounded-full">
+
+                        <span className="bg-red-100 text-red-600 text-xs px-3 py-1 rounded-full font-medium">
                           Low Stock
                         </span>
+
                       )}
 
                     </div>
 
-                    <p className="text-gray-400 mt-4">
+                    <p className="text-gray-500 mt-4">
                       {product.category}
                     </p>
 
-                    <p className="text-yellow-400 text-3xl font-bold mt-6">
-                      ${product.price}
+                    <p className="text-orange-500 text-4xl font-bold mt-6">
+                      ₹ {product.price}
                     </p>
 
-                    <p className="mt-4">
+                    <p className="mt-4 text-gray-700">
                       Stock:
-                      <span className="text-yellow-400 ml-2">
+                      <span className="text-green-700 font-semibold ml-2">
                         {product.stock}
                       </span>
                     </p>
 
-                    {/* ACTION BUTTONS */}
+                    {/* ACTIONS */}
 
                     <div className="flex gap-4 mt-8">
 
                       <button
                         onClick={() =>
-                          setEditingProduct(
-                            product
-                          )
+                          setEditingProduct(product)
                         }
-                        className="flex-1 bg-yellow-500 text-black py-3 rounded-full font-semibold"
+                        className="flex-1 bg-green-700 hover:bg-green-800 text-white py-3 rounded-full font-semibold transition"
                       >
                         Edit
                       </button>
 
                       <button
                         onClick={() =>
-                          deleteProduct(
-                            product.id
-                          )
+                          deleteProduct(product.id)
                         }
-                        className="flex-1 bg-red-500 text-white py-3 rounded-full font-semibold"
+                        className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-full font-semibold transition"
                       >
                         Delete
                       </button>
@@ -279,11 +280,11 @@ const AdminProducts = () => {
 
       {editingProduct && (
 
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-6">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-6">
 
-          <div className="bg-[#111] border border-yellow-500/20 rounded-3xl p-10 w-full max-w-2xl">
+          <div className="bg-white rounded-3xl p-10 w-full max-w-2xl">
 
-            <h2 className="text-4xl font-bold mb-10">
+            <h2 className="text-4xl font-bold text-gray-900 mb-10">
               Edit Product
             </h2>
 
@@ -298,7 +299,7 @@ const AdminProducts = () => {
                     name: e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -311,7 +312,7 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -324,7 +325,7 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -337,7 +338,7 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -350,14 +351,12 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <textarea
                 rows="4"
-                value={
-                  editingProduct.description
-                }
+                value={editingProduct.description}
                 onChange={(e) =>
                   setEditingProduct({
                     ...editingProduct,
@@ -365,14 +364,14 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <div className="flex gap-4">
 
                 <button
                   onClick={updateProduct}
-                  className="flex-1 bg-yellow-500 text-black py-4 rounded-full font-semibold"
+                  className="flex-1 bg-green-700 hover:bg-green-800 text-white py-4 rounded-full font-semibold transition"
                 >
                   Save Changes
                 </button>
@@ -381,7 +380,7 @@ const AdminProducts = () => {
                   onClick={() =>
                     setEditingProduct(null)
                   }
-                  className="flex-1 bg-gray-700 py-4 rounded-full"
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-4 rounded-full font-semibold transition"
                 >
                   Cancel
                 </button>
@@ -400,11 +399,11 @@ const AdminProducts = () => {
 
       {showAddModal && (
 
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-6">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-6">
 
-          <div className="bg-[#111] border border-yellow-500/20 rounded-3xl p-10 w-full max-w-2xl">
+          <div className="bg-white rounded-3xl p-10 w-full max-w-2xl">
 
-            <h2 className="text-4xl font-bold mb-10">
+            <h2 className="text-4xl font-bold text-gray-900 mb-10">
               Add Product
             </h2>
 
@@ -420,7 +419,7 @@ const AdminProducts = () => {
                     name: e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -434,7 +433,7 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -448,7 +447,7 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -462,7 +461,7 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <input
@@ -476,7 +475,7 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <textarea
@@ -490,14 +489,14 @@ const AdminProducts = () => {
                       e.target.value,
                   })
                 }
-                className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4"
+                className="w-full border border-green-100 rounded-2xl px-5 py-4 outline-none focus:border-green-600"
               />
 
               <div className="flex gap-4">
 
                 <button
                   onClick={createProduct}
-                  className="flex-1 bg-yellow-500 text-black py-4 rounded-full font-semibold"
+                  className="flex-1 bg-green-700 hover:bg-green-800 text-white py-4 rounded-full font-semibold transition"
                 >
                   Create Product
                 </button>
@@ -506,7 +505,7 @@ const AdminProducts = () => {
                   onClick={() =>
                     setShowAddModal(false)
                   }
-                  className="flex-1 bg-gray-700 py-4 rounded-full"
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-4 rounded-full font-semibold transition"
                 >
                   Cancel
                 </button>

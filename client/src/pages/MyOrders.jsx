@@ -1,10 +1,5 @@
-
 import { useEffect, useState } from "react";
-
-import Navbar from "../components/navbar/Navbar";
-
 import API from "../services/api";
-
 import { motion } from "framer-motion";
 
 const MyOrders = () => {
@@ -34,244 +29,203 @@ const MyOrders = () => {
   }, []);
 
   return (
-    <>
-      <Navbar />
+    <div className="min-h-screen bg-[#f8faf8] pt-36 pb-20 px-6">
 
-      <div className="min-h-screen bg-black text-white pt-40 px-6">
+      <div className="max-w-7xl mx-auto">
 
-        <div className="max-w-7xl mx-auto">
+        {/* HEADER */}
 
-          {/* HEADER */}
+        <div className="text-center mb-16">
 
-          <div className="mb-16">
+          <span className="inline-block bg-green-100 text-green-700 px-5 py-2 rounded-full font-medium mb-5">
+            Order Management
+          </span>
 
-            <p className="text-yellow-400 uppercase tracking-[5px] mb-4">
-              Customer Orders
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900">
+            My Orders
+          </h1>
+
+          <p className="text-gray-600 mt-4">
+            Track all your FreshIndia orders in one place.
+          </p>
+
+        </div>
+
+        {/* EMPTY */}
+
+        {orders.length === 0 && (
+
+          <div className="bg-white border border-green-100 rounded-3xl shadow-sm p-16 text-center">
+
+            <h2 className="text-3xl font-bold text-gray-800">
+              No Orders Yet
+            </h2>
+
+            <p className="text-gray-600 mt-4">
+              Your orders will appear here once placed.
             </p>
-
-            <h1 className="text-6xl font-bold">
-              My Orders
-            </h1>
 
           </div>
 
-          {/* EMPTY */}
+        )}
 
-          {orders.length === 0 && (
+        {/* ORDERS */}
 
-            <div className="bg-white/5 border border-yellow-500/20 rounded-3xl p-20 text-center">
+        <div className="space-y-8">
 
-              <h2 className="text-4xl font-bold mb-6">
-                No Orders Yet
-              </h2>
+          {orders.map((order, index) => (
 
-              <p className="text-gray-400">
-                Your export orders will appear here.
-              </p>
+            <motion.div
+              key={order.id}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className="bg-white border border-green-100 rounded-3xl shadow-sm p-8"
+            >
 
-            </div>
+              <div className="grid lg:grid-cols-3 gap-10">
 
-          )}
+                {/* PRODUCT INFO */}
 
-          {/* ORDERS */}
+                <div>
 
-          <div className="space-y-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    {order.product_name}
+                  </h2>
 
-            {orders.map((order, index) => (
+                  <p className="text-gray-500">
+                    Quantity
+                  </p>
 
-              <motion.div
-                key={order.id}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="bg-white/5 border border-yellow-500/20 rounded-3xl p-8"
-              >
+                  <p className="text-xl font-semibold mt-2">
+                    {order.quantity}
+                  </p>
 
-                <div className="grid md:grid-cols-3 gap-10">
+                  <p className="text-gray-500 mt-6">
+                    Total Amount
+                  </p>
 
-                  {/* LEFT */}
+                  <p className="text-3xl text-orange-500 font-bold mt-2">
+                    ₹ {order.total_price}
+                  </p>
 
-                  <div>
+                </div>
 
-                    <h2 className="text-3xl font-bold mb-4">
-                      {order.product_name}
-                    </h2>
+                {/* SHIPPING */}
 
-                    <p className="text-gray-400">
-                      Quantity
-                    </p>
+                <div>
 
-                    <p className="text-2xl mt-2">
-                      {order.quantity}
-                    </p>
+                  <p className="text-gray-500">
+                    Shipping Address
+                  </p>
 
-                    <p className="text-gray-400 mt-6">
-                      Total Price
-                    </p>
+                  <p className="mt-3 text-gray-700 leading-7">
+                    {order.shipping_address}
+                  </p>
 
-                    <p className="text-3xl text-yellow-400 font-bold mt-2">
-                      ${order.total_price}
-                    </p>
+                  <p className="text-gray-500 mt-8">
+                    Tracking ID
+                  </p>
 
-                  </div>
+                  <p className="text-green-700 font-bold text-xl mt-2">
+                    {order.tracking_id ||
+                      "Not Assigned Yet"}
+                  </p>
 
-                  {/* CENTER */}
+                </div>
 
-                  <div>
+                {/* STATUS */}
 
-                    <p className="text-gray-400">
-                      Shipping Address
-                    </p>
+                <div>
 
-                    <p className="mt-2 leading-8">
-                      {order.shipping_address}
-                    </p>
+                  <p className="text-gray-500 mb-4">
+                    Order Status
+                  </p>
 
-                    <p className="text-gray-400 mt-8">
-                      Tracking ID
-                    </p>
+                  <span
+                    className={`
+                      px-5 py-2 rounded-full text-sm font-semibold
 
-                    <p className="text-yellow-400 text-2xl font-bold mt-2">
-                      {order.tracking_id ||
-                        "Not Assigned Yet"}
-                    </p>
+                      ${
+                        order.status === "Pending"
+                          ? "bg-orange-100 text-orange-600"
 
-                  </div>
+                          : order.status === "Processing"
+                          ? "bg-blue-100 text-blue-600"
 
-                  {/* RIGHT */}
+                          : order.status === "Dispatched"
+                          ? "bg-purple-100 text-purple-600"
 
-                  <div>
+                          : order.status === "Delivered"
+                          ? "bg-green-100 text-green-700"
 
-                    <p className="text-gray-400 mb-4">
-                      Order Status
-                    </p>
+                          : "bg-gray-100 text-gray-700"
+                      }
+                    `}
+                  >
+                    {order.status}
+                  </span>
 
-                    <span
-                      className={`
-                        px-5 py-2 rounded-full text-sm font-semibold
+                  {/* TIMELINE */}
 
-                        ${
-                          order.status === "Pending"
-                            ? "bg-yellow-500 text-black"
+                  <div className="mt-10 space-y-5">
 
-                            : order.status === "Processing"
-                            ? "bg-blue-500"
+                    <div className="flex items-center gap-4">
+                      <div className="w-4 h-4 rounded-full bg-green-600" />
+                      <p>Order Placed</p>
+                    </div>
 
-                            : order.status === "Dispatched"
-                            ? "bg-purple-500"
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-4 h-4 rounded-full ${
+                          order.status === "Processing" ||
+                          order.status === "Dispatched" ||
+                          order.status === "Delivered"
+                            ? "bg-green-600"
+                            : "bg-gray-300"
+                        }`}
+                      />
+                      <p>Processing</p>
+                    </div>
 
-                            : order.status === "Delivered"
-                            ? "bg-green-500"
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-4 h-4 rounded-full ${
+                          order.status === "Dispatched" ||
+                          order.status === "Delivered"
+                            ? "bg-green-600"
+                            : "bg-gray-300"
+                        }`}
+                      />
+                      <p>Dispatched</p>
+                    </div>
 
-                            : "bg-gray-500"
-                        }
-                      `}
-                    >
-                      {order.status}
-                    </span>
-
-                    {/* TRACKING TIMELINE */}
-
-                    <div className="mt-10 space-y-6">
-
-                      <div className="flex items-center gap-4">
-
-                        <div className="w-4 h-4 rounded-full bg-yellow-400" />
-
-                        <p>
-                          Order Placed
-                        </p>
-
-                      </div>
-
-                      <div className="flex items-center gap-4">
-
-                        <div
-                          className={`
-                            w-4 h-4 rounded-full
-
-                            ${
-                              order.status ===
-                                "Processing" ||
-                              order.status ===
-                                "Dispatched" ||
-                              order.status ===
-                                "Delivered"
-                                ? "bg-yellow-400"
-
-                                : "bg-gray-500"
-                            }
-                          `}
-                        />
-
-                        <p>
-                          Processing
-                        </p>
-
-                      </div>
-
-                      <div className="flex items-center gap-4">
-
-                        <div
-                          className={`
-                            w-4 h-4 rounded-full
-
-                            ${
-                              order.status ===
-                                "Dispatched" ||
-                              order.status ===
-                                "Delivered"
-                                ? "bg-yellow-400"
-
-                                : "bg-gray-500"
-                            }
-                          `}
-                        />
-
-                        <p>
-                          Dispatched
-                        </p>
-
-                      </div>
-
-                      <div className="flex items-center gap-4">
-
-                        <div
-                          className={`
-                            w-4 h-4 rounded-full
-
-                            ${
-                              order.status ===
-                              "Delivered"
-                                ? "bg-yellow-400"
-
-                                : "bg-gray-500"
-                            }
-                          `}
-                        />
-
-                        <p>
-                          Delivered
-                        </p>
-
-                      </div>
-
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-4 h-4 rounded-full ${
+                          order.status === "Delivered"
+                            ? "bg-green-600"
+                            : "bg-gray-300"
+                        }`}
+                      />
+                      <p>Delivered</p>
                     </div>
 
                   </div>
 
                 </div>
 
-              </motion.div>
+              </div>
 
-            ))}
+            </motion.div>
 
-          </div>
+          ))}
 
         </div>
 
       </div>
-    </>
+
+    </div>
   );
 };
 

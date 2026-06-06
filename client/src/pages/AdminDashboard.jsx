@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 import AdminNavbar from "../components/navbar/AdminNavbar";
@@ -15,7 +14,9 @@ import {
 import { motion } from "framer-motion";
 
 const AdminDashboard = () => {
-  const [stats, setStats] = useState(null);
+
+  const [stats, setStats] =
+    useState(null);
 
   const fetchStats = async () => {
     try {
@@ -41,8 +42,12 @@ const AdminDashboard = () => {
       <>
         <AdminNavbar />
 
-        <div className="min-h-screen bg-black text-white flex items-center justify-center text-4xl">
-          Loading Dashboard...
+        <div className="min-h-screen bg-[#f8faf8] flex items-center justify-center">
+
+          <h1 className="text-4xl font-bold text-green-700">
+            Loading Dashboard...
+          </h1>
+
         </div>
       </>
     );
@@ -53,24 +58,32 @@ const AdminDashboard = () => {
       title: "Total Orders",
       value: stats.totalOrders,
       icon: <FaShoppingCart />,
+      color: "text-orange-500",
+      bg: "bg-orange-100",
     },
 
     {
       title: "Revenue",
-      value: `$${stats.totalRevenue}`,
+      value: `₹ ${stats.totalRevenue}`,
       icon: <FaDollarSign />,
+      color: "text-green-700",
+      bg: "bg-green-100",
     },
 
     {
       title: "Products",
       value: stats.totalProducts,
       icon: <FaBoxOpen />,
+      color: "text-purple-600",
+      bg: "bg-purple-100",
     },
 
     {
       title: "Users",
       value: stats.totalUsers,
       icon: <FaUsers />,
+      color: "text-blue-600",
+      bg: "bg-blue-100",
     },
   ];
 
@@ -78,7 +91,7 @@ const AdminDashboard = () => {
     <>
       <AdminNavbar />
 
-      <div className="min-h-screen bg-black text-white pt-40 px-6">
+      <div className="min-h-screen bg-[#f8faf8] pt-36 pb-20 px-6">
 
         <div className="max-w-7xl mx-auto">
 
@@ -86,39 +99,53 @@ const AdminDashboard = () => {
 
           <div className="mb-16">
 
-            <p className="text-yellow-400 uppercase tracking-[5px] mb-4">
+            <span className="inline-block bg-green-100 text-green-700 px-5 py-2 rounded-full font-medium mb-5">
               FreshIndia Admin
-            </p>
+            </span>
 
-            <h1 className="text-6xl font-bold">
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900">
               Dashboard Overview
             </h1>
+
+            <p className="text-gray-600 mt-4">
+              Monitor orders, products, revenue and customer activity.
+            </p>
 
           </div>
 
           {/* STATS */}
 
-          <div className="grid md:grid-cols-4 gap-8 mb-20">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
 
             {dashboardCards.map((card, index) => (
 
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/5 border border-yellow-500/20 rounded-3xl p-8 backdrop-blur-xl hover:border-yellow-400 transition"
+                initial={{
+                  opacity: 0,
+                  y: 40,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: index * 0.1,
+                }}
+                className="bg-white rounded-3xl border border-green-100 shadow-sm p-8 hover:shadow-xl transition"
               >
 
-                <div className="text-5xl text-yellow-400 mb-6">
+                <div
+                  className={`w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mb-6 ${card.bg} ${card.color}`}
+                >
                   {card.icon}
                 </div>
 
-                <h2 className="text-gray-400 text-lg">
+                <h2 className="text-gray-500 text-lg">
                   {card.title}
                 </h2>
 
-                <p className="text-5xl font-bold mt-4">
+                <p className="text-5xl font-bold text-gray-900 mt-4">
                   {card.value}
                 </p>
 
@@ -132,40 +159,61 @@ const AdminDashboard = () => {
 
           <div className="grid md:grid-cols-3 gap-10">
 
-            <div className="bg-white/5 border border-yellow-500/20 rounded-3xl p-10">
+            {/* ORDERS */}
 
-              <h2 className="text-3xl font-bold mb-6">
+            <div className="bg-white border border-green-100 rounded-3xl shadow-sm p-10 hover:shadow-lg transition">
+
+              <div className="w-16 h-16 bg-orange-100 text-orange-500 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                📦
+              </div>
+
+              <h2 className="text-3xl font-bold text-gray-900 mb-5">
                 Orders
               </h2>
 
-              <p className="text-gray-400 leading-8">
-                Manage export orders
-                and customer shipments.
+              <p className="text-gray-600 leading-8">
+                Manage export orders,
+                customer shipments and
+                delivery tracking.
               </p>
 
             </div>
 
-            <div className="bg-white/5 border border-yellow-500/20 rounded-3xl p-10">
+            {/* PRODUCTS */}
 
-              <h2 className="text-3xl font-bold mb-6">
+            <div className="bg-white border border-green-100 rounded-3xl shadow-sm p-10 hover:shadow-lg transition">
+
+              <div className="w-16 h-16 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                🥭
+              </div>
+
+              <h2 className="text-3xl font-bold text-gray-900 mb-5">
                 Products
               </h2>
 
-              <p className="text-gray-400 leading-8">
-                Control fruit inventory,
-                pricing and stock.
+              <p className="text-gray-600 leading-8">
+                Control inventory,
+                pricing, stock updates
+                and product catalogue.
               </p>
 
             </div>
 
-            <div className="bg-white/5 border border-yellow-500/20 rounded-3xl p-10">
+            {/* ANALYTICS */}
 
-              <h2 className="text-3xl font-bold mb-6">
+            <div className="bg-white border border-green-100 rounded-3xl shadow-sm p-10 hover:shadow-lg transition">
+
+              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                📈
+              </div>
+
+              <h2 className="text-3xl font-bold text-gray-900 mb-5">
                 Analytics
               </h2>
 
-              <p className="text-gray-400 leading-8">
-                Track growth and
+              <p className="text-gray-600 leading-8">
+                Track revenue,
+                growth trends and
                 business performance.
               </p>
 

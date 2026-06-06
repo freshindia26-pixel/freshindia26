@@ -6,13 +6,13 @@ import {
 } from "react-router-dom";
 
 // COMMON COMPONENTS
-
+import BulkEnquiry from "./pages/BulkEnquiry";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/common/Footer";
 import WhatsappButton from "./components/common/WhatsappButton";
-
+import Catalogue from "./pages/Catalogue";
 // PROTECTED ROUTES
-
+import AdminEnquiries from "./pages/AdminEnquiries";
 import ProtectedRoute from "./components/protected/ProtectedRoute";
 
 import AdminRoute from "./components/protected/AdminRoute";
@@ -50,7 +50,7 @@ function AppContent() {
     location.pathname.startsWith("/admin");
 
   return (
-    <div className="bg-black text-white overflow-x-hidden">
+    <div className="bg-white text-gray-900 overflow-x-hidden">
 
       {/* USER NAVBAR */}
 
@@ -66,12 +66,26 @@ function AppContent() {
           path="/"
           element={<Home />}
         />
-
+        <Route
+  path="/admin/enquiries"
+  element={
+    <AdminRoute>
+      <AdminEnquiries />
+    </AdminRoute>
+  }
+/>
+<Route
+  path="/catalogue"
+  element={<Catalogue />}
+/>
         <Route
           path="/products"
           element={<ProductsPage />}
         />
-
+<Route
+  path="/bulk-enquiry"
+  element={<BulkEnquiry />}
+/>
         <Route
           path="/products/:id"
           element={<ProductDetails />}

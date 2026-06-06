@@ -1,64 +1,57 @@
 import { motion } from "framer-motion";
-
-const reviews = [
-  {
-    name: "Michael Johnson",
-    text: "FreshIndia delivered premium mangoes exactly as promised. Beautiful packaging and amazing taste.",
-  },
-  {
-    name: "Sarah Williams",
-    text: "Professional export service with excellent fruit quality and timely delivery.",
-  },
-  {
-    name: "Ahmed Khan",
-    text: "The best tropical fruit supplier we have worked with internationally.",
-  },
-];
+import { Link } from "react-router-dom";
 
 const Testimonials = () => {
   return (
-    <section className="bg-gradient-to-b from-black to-green-950 py-24 px-6">
+    <section className="bg-gradient-to-r from-green-700 to-green-800 py-24 px-6">
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto text-center">
 
-        <div className="text-center mb-20">
-          <p className="text-yellow-400 uppercase tracking-[5px] mb-4">
-            Testimonials
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+
+          <span className="inline-block bg-white/20 text-white px-5 py-2 rounded-full mb-6">
+            Bulk Orders & Global Trade
+          </span>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+
+            Looking For Bulk Quantity
+            <br />
+
+            Fruits & Vegetables?
+
+          </h2>
+
+          <p className="text-green-100 text-lg mt-8 max-w-3xl mx-auto leading-8">
+
+            FreshIndia supplies export-quality fruits, vegetables,
+            spices and agricultural products to importers,
+            distributors, wholesalers and retail chains worldwide.
+
           </p>
 
-          <h2 className="text-5xl font-bold text-white">
-            What Our Customers Say
-          </h2>
-        </div>
+          <div className="flex flex-wrap justify-center gap-5 mt-12">
 
-        <div className="grid md:grid-cols-3 gap-10">
+            <Link to="/bulk-enquiry">
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-semibold transition">
+                Send Bulk Enquiry
+              </button>
+            </Link>
 
-          {reviews.map((review, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 80 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-              className="bg-white/5 backdrop-blur-xl border border-yellow-500/20 rounded-3xl p-8 hover:-translate-y-2 transition"
-            >
+            <Link to="/catalogue">
+              <button className="bg-white text-green-700 hover:bg-green-50 px-8 py-4 rounded-full font-semibold transition">
+                View Catalogue
+              </button>
+            </Link>
 
-              <div className="text-yellow-400 text-2xl mb-6">
-                ⭐⭐⭐⭐⭐
-              </div>
+          </div>
 
-              <p className="text-gray-300 leading-8">
-                “{review.text}”
-              </p>
-
-              <h3 className="text-white text-xl font-semibold mt-8">
-                {review.name}
-              </h3>
-
-            </motion.div>
-          ))}
-
-        </div>
+        </motion.div>
 
       </div>
 

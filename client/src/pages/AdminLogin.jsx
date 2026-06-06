@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -6,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
 const AdminLogin = () => {
+
   const navigate = useNavigate();
 
   const [formData, setFormData] =
@@ -15,28 +15,37 @@ const AdminLogin = () => {
     });
 
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+
+      [e.target.name]:
+        e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
 
-      const response = await API.post(
-        "/auth/login",
-        formData
-      );
+      const response =
+        await API.post(
+          "/auth/login",
+          formData
+        );
 
-      // CHECK ADMIN
+      /* CHECK ADMIN */
 
       if (
-        response.data.user.role !== "admin"
+        response.data.user.role !==
+        "admin"
       ) {
-        alert("Access Denied");
+
+        alert(
+          "Access Denied"
+        );
 
         return;
       }
@@ -48,10 +57,15 @@ const AdminLogin = () => {
 
       localStorage.setItem(
         "user",
-        JSON.stringify(response.data.user)
+
+        JSON.stringify(
+          response.data.user
+        )
       );
 
-      alert("Admin Login Success");
+      alert(
+        "Admin Login Success"
+      );
 
       navigate("/admin");
 
@@ -64,42 +78,116 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-[#f8faf8] flex items-center justify-center px-6 py-20">
 
-      <div className="w-full max-w-lg bg-white/5 border border-yellow-500/20 rounded-3xl p-10">
+      <div className="w-full max-w-5xl grid md:grid-cols-2 bg-white rounded-[40px] overflow-hidden shadow-2xl border border-green-100">
 
-        <h1 className="text-5xl font-bold text-yellow-400 mb-10 text-center">
-          Admin Login
-        </h1>
+        {/* LEFT SIDE */}
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6"
-        >
+        <div className="bg-gradient-to-br from-green-700 to-green-900 text-white p-14 flex flex-col justify-center">
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Admin Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4 outline-none"
-          />
+          <span className="inline-block bg-white/20 px-5 py-2 rounded-full text-sm font-medium w-fit mb-8">
+            FreshIndia Admin Portal
+          </span>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full bg-black border border-yellow-500/20 rounded-xl px-5 py-4 outline-none"
-          />
+          <h1 className="text-5xl font-bold leading-tight">
+            Welcome Back
+          </h1>
 
-          <button className="w-full bg-yellow-500 text-black py-4 rounded-xl font-semibold hover:scale-105 transition">
-            Login
-          </button>
+          <p className="mt-8 text-green-100 leading-8 text-lg">
+            Manage orders, products,
+            analytics and customer enquiries
+            from the FreshIndia admin dashboard.
+          </p>
 
-        </form>
+          <div className="mt-14 space-y-5">
+
+            <div className="flex items-center gap-4">
+              <span className="text-2xl">
+                📦
+              </span>
+
+              <p>
+                Order Management
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="text-2xl">
+                🌍
+              </span>
+
+              <p>
+                Export Enquiries
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span className="text-2xl">
+                📈
+              </span>
+
+              <p>
+                Business Analytics
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* RIGHT SIDE */}
+
+        <div className="p-12 md:p-16 flex flex-col justify-center">
+
+          <div className="mb-10">
+
+            <span className="inline-block bg-orange-100 text-orange-500 px-5 py-2 rounded-full font-medium mb-5">
+              Secure Login
+            </span>
+
+            <h2 className="text-4xl font-bold text-gray-900">
+              Admin Login
+            </h2>
+
+            <p className="text-gray-500 mt-4">
+              Login to access the admin dashboard.
+            </p>
+
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Admin Email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full bg-[#f8faf8] border border-green-100 rounded-2xl px-6 py-5 outline-none focus:border-green-700 transition"
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full bg-[#f8faf8] border border-green-100 rounded-2xl px-6 py-5 outline-none focus:border-green-700 transition"
+            />
+
+            <button className="w-full bg-green-700 hover:bg-green-800 text-white py-5 rounded-2xl font-semibold text-lg transition shadow-lg">
+
+              Login To Dashboard
+
+            </button>
+
+          </form>
+
+        </div>
 
       </div>
 

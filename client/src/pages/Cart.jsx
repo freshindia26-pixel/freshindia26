@@ -1,6 +1,4 @@
-
 import { useContext } from "react";
-
 import { CartContext } from "../context/CartContext";
 
 const Cart = () => {
@@ -17,30 +15,56 @@ const Cart = () => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white pt-40 px-6">
+    <div className="min-h-screen bg-[#f8faf8] pt-36 pb-20 px-6">
 
       <div className="max-w-7xl mx-auto">
 
-        <h1 className="text-6xl font-bold text-yellow-400 mb-16">
-          Shopping Cart
-        </h1>
+        {/* HEADER */}
+
+        <div className="text-center mb-16">
+
+          <span className="inline-block bg-green-100 text-green-700 px-5 py-2 rounded-full font-medium mb-5">
+            FreshIndia Cart
+          </span>
+
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+            Shopping Cart
+          </h1>
+
+          <p className="text-gray-600">
+            Review your selected products before checkout.
+          </p>
+
+        </div>
+
+        {/* EMPTY CART */}
 
         {cartItems.length === 0 ? (
 
-          <p className="text-gray-400 text-xl">
-            Cart is empty
-          </p>
+          <div className="bg-white border border-green-100 rounded-3xl shadow-sm p-16 text-center">
+
+            <h2 className="text-3xl font-bold text-gray-800">
+              Your Cart Is Empty
+            </h2>
+
+            <p className="text-gray-600 mt-4">
+              Add products to continue shopping.
+            </p>
+
+          </div>
 
         ) : (
 
           <>
+            {/* ITEMS */}
+
             <div className="space-y-8">
 
               {cartItems.map((item) => (
 
                 <div
                   key={item.id}
-                  className="bg-white/5 border border-yellow-500/20 rounded-3xl p-6 flex flex-col md:flex-row gap-6 items-center justify-between"
+                  className="bg-white rounded-3xl shadow-sm border border-green-100 p-6 flex flex-col lg:flex-row items-center justify-between gap-6"
                 >
 
                   <div className="flex items-center gap-6">
@@ -53,11 +77,15 @@ const Cart = () => {
 
                     <div>
 
-                      <h2 className="text-3xl font-bold">
+                      <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm mb-3">
+                        {item.category}
+                      </span>
+
+                      <h2 className="text-2xl font-bold text-gray-900">
                         {item.name}
                       </h2>
 
-                      <p className="text-gray-400 mt-2">
+                      <p className="text-gray-600 mt-2">
                         Quantity: {item.quantity}
                       </p>
 
@@ -65,18 +93,17 @@ const Cart = () => {
 
                   </div>
 
-                  <div>
+                  <div className="text-center lg:text-right">
 
-                    <p className="text-yellow-400 text-3xl font-bold">
-                      $
-                      {item.price * item.quantity}
+                    <p className="text-3xl font-bold text-orange-500">
+                      ₹ {item.price * item.quantity}
                     </p>
 
                     <button
                       onClick={() =>
                         removeFromCart(item.id)
                       }
-                      className="mt-4 bg-red-500 px-5 py-2 rounded-full"
+                      className="mt-4 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full transition"
                     >
                       Remove
                     </button>
@@ -89,26 +116,45 @@ const Cart = () => {
 
             </div>
 
-            {/* TOTAL */}
+            {/* ORDER SUMMARY */}
 
-            <div className="mt-16 bg-white/5 border border-yellow-500/20 rounded-3xl p-10">
+            <div className="mt-16 bg-white rounded-3xl shadow-sm border border-green-100 p-10">
 
-              <h2 className="text-4xl font-bold">
-                Total: ${total}
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+                Order Summary
               </h2>
 
-              <button className="mt-8 bg-yellow-500 text-black px-8 py-4 rounded-full font-semibold hover:scale-105 transition">
-                Checkout
-              </button>
+              <div className="flex justify-between items-center mb-8">
 
-              <button
-                onClick={clearCart}
-                className="ml-6 bg-red-500 text-white px-8 py-4 rounded-full font-semibold"
-              >
-                Clear Cart
-              </button>
+                <span className="text-xl text-gray-700">
+                  Total Amount
+                </span>
+
+                <span className="text-4xl font-bold text-green-700">
+                  ₹ {total}
+                </span>
+
+              </div>
+
+              <div className="flex flex-wrap gap-5">
+
+                <button
+                  className="bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-full font-semibold transition"
+                >
+                  Proceed To Checkout
+                </button>
+
+                <button
+                  onClick={clearCart}
+                  className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-full font-semibold transition"
+                >
+                  Clear Cart
+                </button>
+
+              </div>
 
             </div>
+
           </>
         )}
 
