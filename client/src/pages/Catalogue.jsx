@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const catalogueProducts = [
   {
     name: "Imam Pasand",
@@ -114,6 +116,25 @@ const catalogueProducts = [
 ];
 
 const Catalogue = () => {
+
+  const [selectedCountry, setSelectedCountry] =
+    useState("India");
+
+  const countries = [
+    ...new Map(
+      catalogueProducts.map((item) => [
+        item.country,
+        item.flag,
+      ])
+    ),
+  ];
+
+  const filteredProducts =
+    catalogueProducts.filter(
+      (item) =>
+        item.country === selectedCountry
+    );
+
   return (
     <div className="min-h-screen bg-[#f8faf8] pt-36 pb-20 px-6">
 
@@ -121,7 +142,7 @@ const Catalogue = () => {
 
         {/* HEADER */}
 
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
 
           <span className="inline-block bg-green-100 text-green-700 px-5 py-2 rounded-full font-medium mb-5">
             FreshIndia Export Catalogue
@@ -132,18 +153,50 @@ const Catalogue = () => {
           </h1>
 
           <p className="text-gray-600 mt-5 max-w-3xl mx-auto">
-            Discover our premium export-quality fruits,
-            vegetables, spices and agricultural products
-            sourced from trusted suppliers worldwide.
+            Browse our premium export products country-wise.
           </p>
 
         </div>
 
-        {/* PRODUCTS GRID */}
+        {/* COUNTRY FILTER */}
+
+        <div className="flex flex-wrap justify-center gap-4 mb-16">
+
+          {countries.map(([country, flag]) => (
+
+            <button
+              key={country}
+              onClick={() =>
+                setSelectedCountry(country)
+              }
+              className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                selectedCountry === country
+                  ? "bg-green-700 text-white shadow-lg"
+                  : "bg-white border border-green-200 text-gray-700 hover:bg-green-50"
+              }`}
+            >
+              {flag} {country}
+            </button>
+
+          ))}
+
+        </div>
+
+        {/* SELECTED COUNTRY */}
+
+        <div className="text-center mb-10">
+
+          <h2 className="text-3xl font-bold text-green-700">
+            {selectedCountry} Products
+          </h2>
+
+        </div>
+
+        {/* PRODUCTS */}
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-          {catalogueProducts.map((item, index) => (
+          {filteredProducts.map((item, index) => (
 
             <div
               key={index}

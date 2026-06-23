@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 
@@ -8,6 +9,12 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
+  const { cartItems } = useContext(CartContext);
+
+const totalCartItems = cartItems.reduce(
+  (total, item) => total + item.quantity,
+  0
+);
 
   const user = JSON.parse(
     localStorage.getItem("user")
@@ -56,7 +63,17 @@ const Navbar = () => {
               Catalogue
             </li>
           </Link>
+<Link to="/cart">
+  <li className="hover:text-orange-500 transition cursor-pointer relative">
+    🛒 Cart
 
+    {totalCartItems > 0 && (
+      <span className="absolute -top-3 -right-5 bg-orange-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+        {totalCartItems}
+      </span>
+    )}
+  </li>
+</Link>
           <Link to="/bulk-enquiry">
             <li className="hover:text-orange-500 transition cursor-pointer">
               Bulk Enquiry
@@ -190,6 +207,12 @@ const Navbar = () => {
                     Login
                   </p>
                 </Link>
+                <Link
+  to="/cart"
+  className="hover:text-orange-500 transition"
+>
+  Cart
+</Link>
 <Link to="/catalogue">
   Catalogue
 </Link>

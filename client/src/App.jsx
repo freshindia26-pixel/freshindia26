@@ -121,14 +121,10 @@ function AppContent() {
           }
         />
 
-        <Route
-          path="/cart"
-          element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          }
-        />
+       <Route
+  path="/cart"
+  element={<Cart />}
+/>
 
         {/* ADMIN LOGIN */}
 

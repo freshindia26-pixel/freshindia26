@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { CartContext } from "../context/CartContext";
@@ -6,17 +7,29 @@ import API from "../services/api";
 const ProductDetails = () => {
   const { id } = useParams();
 
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, cartItems } =
+    useContext(CartContext);
 
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] =
+    useState(null);
+
+  const cartItem = cartItems.find(
+    (item) => item.id === product?.id
+  );
+
+  const quantityInCart = cartItem
+    ? cartItem.quantity
+    : 0;
 
   const fetchProduct = async () => {
     try {
       const response = await API.get("/products");
 
-      const foundProduct = response.data.find(
-        (item) => item.id === Number(id)
-      );
+      const foundProduct =
+        response.data.find(
+          (item) =>
+            item.id === Number(id)
+        );
 
       setProduct(foundProduct);
     } catch (error) {
@@ -86,10 +99,18 @@ const ProductDetails = () => {
             <div className="flex flex-wrap gap-5 mt-10">
 
               <button
-                onClick={() => addToCart(product)}
-                className="bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-full font-semibold transition"
+                onClick={() =>
+                  addToCart(product)
+                }
+                className="relative bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-full font-semibold transition"
               >
                 Add To Cart
+
+                {quantityInCart > 0 && (
+                  <span className="absolute -top-3 -right-3 bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+                    {quantityInCart}
+                  </span>
+                )}
               </button>
 
               <a
@@ -111,15 +132,25 @@ const ProductDetails = () => {
 
               <ul className="space-y-3 text-gray-600">
 
-                <li>✅ Export Quality Product</li>
+                <li>
+                  ✅ Export Quality Product
+                </li>
 
-                <li>✅ International Packaging Standards</li>
+                <li>
+                  ✅ International Packaging Standards
+                </li>
 
-                <li>✅ Bulk Quantity Available</li>
+                <li>
+                  ✅ Bulk Quantity Available
+                </li>
 
-                <li>✅ Global Shipping Support</li>
+                <li>
+                  ✅ Global Shipping Support
+                </li>
 
-                <li>✅ FreshIndia Quality Assurance</li>
+                <li>
+                  ✅ FreshIndia Quality Assurance
+                </li>
 
               </ul>
 

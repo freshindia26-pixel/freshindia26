@@ -1,3 +1,4 @@
+
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
@@ -10,7 +11,9 @@ const Cart = () => {
 
   const total = cartItems.reduce(
     (acc, item) =>
-      acc + item.price * item.quantity,
+      acc +
+      Number(item.price || 0) *
+        Number(item.quantity || 1),
     0
   );
 
@@ -18,8 +21,6 @@ const Cart = () => {
     <div className="min-h-screen bg-[#f8faf8] pt-36 pb-20 px-6">
 
       <div className="max-w-7xl mx-auto">
-
-        {/* HEADER */}
 
         <div className="text-center mb-16">
 
@@ -31,61 +32,53 @@ const Cart = () => {
             Shopping Cart
           </h1>
 
-          <p className="text-gray-600">
-            Review your selected products before checkout.
-          </p>
-
         </div>
-
-        {/* EMPTY CART */}
 
         {cartItems.length === 0 ? (
 
-          <div className="bg-white border border-green-100 rounded-3xl shadow-sm p-16 text-center">
+          <div className="bg-white rounded-3xl shadow-sm border border-green-100 p-16 text-center">
 
             <h2 className="text-3xl font-bold text-gray-800">
               Your Cart Is Empty
             </h2>
-
-            <p className="text-gray-600 mt-4">
-              Add products to continue shopping.
-            </p>
 
           </div>
 
         ) : (
 
           <>
-            {/* ITEMS */}
-
-            <div className="space-y-8">
+            <div className="space-y-6">
 
               {cartItems.map((item) => (
 
                 <div
                   key={item.id}
-                  className="bg-white rounded-3xl shadow-sm border border-green-100 p-6 flex flex-col lg:flex-row items-center justify-between gap-6"
+                  className="bg-white rounded-3xl shadow-sm border border-green-100 p-6 flex flex-col md:flex-row justify-between items-center gap-6"
                 >
 
                   <div className="flex items-center gap-6">
 
                     <img
-                      src={item.image_url}
+                      src={
+                        item.image_url ||
+                        item.image ||
+                        "https://via.placeholder.com/150"
+                      }
                       alt={item.name}
-                      className="w-32 h-32 object-cover rounded-2xl"
+                      className="w-28 h-28 rounded-2xl object-cover"
                     />
 
                     <div>
-
-                      <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm mb-3">
-                        {item.category}
-                      </span>
 
                       <h2 className="text-2xl font-bold text-gray-900">
                         {item.name}
                       </h2>
 
-                      <p className="text-gray-600 mt-2">
+                      <p className="text-gray-500">
+                        {item.category}
+                      </p>
+
+                      <p className="text-green-700 font-semibold mt-2">
                         Quantity: {item.quantity}
                       </p>
 
@@ -93,17 +86,15 @@ const Cart = () => {
 
                   </div>
 
-                  <div className="text-center lg:text-right">
+                  <div className="text-right">
 
                     <p className="text-3xl font-bold text-orange-500">
-                      ₹ {item.price * item.quantity}
+                      ₹ {Number(item.price) * Number(item.quantity)}
                     </p>
 
                     <button
-                      onClick={() =>
-                        removeFromCart(item.id)
-                      }
-                      className="mt-4 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full transition"
+                      onClick={() => removeFromCart(item.id)}
+                      className="mt-4 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full"
                     >
                       Remove
                     </button>
@@ -116,17 +107,15 @@ const Cart = () => {
 
             </div>
 
-            {/* ORDER SUMMARY */}
+            <div className="mt-12 bg-white rounded-3xl shadow-sm border border-green-100 p-8">
 
-            <div className="mt-16 bg-white rounded-3xl shadow-sm border border-green-100 p-10">
-
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Order Summary
               </h2>
 
-              <div className="flex justify-between items-center mb-8">
+              <div className="flex justify-between items-center">
 
-                <span className="text-xl text-gray-700">
+                <span className="text-xl">
                   Total Amount
                 </span>
 
@@ -136,17 +125,15 @@ const Cart = () => {
 
               </div>
 
-              <div className="flex flex-wrap gap-5">
+              <div className="flex gap-4 mt-8">
 
-                <button
-                  className="bg-green-700 hover:bg-green-800 text-white px-8 py-4 rounded-full font-semibold transition"
-                >
-                  Proceed To Checkout
+                <button className="bg-green-700 text-white px-8 py-4 rounded-full">
+                  Checkout
                 </button>
 
                 <button
                   onClick={clearCart}
-                  className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-full font-semibold transition"
+                  className="bg-red-500 text-white px-8 py-4 rounded-full"
                 >
                   Clear Cart
                 </button>
